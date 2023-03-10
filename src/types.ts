@@ -5,10 +5,15 @@ export type Glyph = {
 
 export type Font = {
     lineHeight: number;
-    glyphMap: Record<string, Glyph>
-}
+    glyphMap: Record<string, Glyph>;
+};
 
-export type GridType = "DEFAULT" | "SMALLER";
+export enum GridType {
+    SZENDO = "SZENDO",
+    SMALL_SZENDO = "SZENDO_SMALL",
+    DEFAULT = "DEFAULT",
+    SMALL = "SMALLER",
+};
 
 export type GridParams = {
     maxAdvance: number;
