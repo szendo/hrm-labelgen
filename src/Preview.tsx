@@ -45,9 +45,8 @@ export function Preview({text, type}: PreviewProps) {
                     if (first) {
                         ctx.moveTo(cx / 65536 * canvas.width, cy / 65536 * canvas.height);
                         first = false;
-                    } else {
-                        ctx.lineTo(cx / 65536 * canvas.width, cy / 65536 * canvas.height);
                     }
+                    ctx.lineTo(cx / 65536 * canvas.width, cy / 65536 * canvas.height);
                 }
             }
             position += advance;
