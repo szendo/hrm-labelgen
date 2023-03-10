@@ -55,7 +55,7 @@ export function Preview({text, type}: PreviewProps) {
         ctx.stroke();
     }, [text, type]);
     let ref = useRef<HTMLCanvasElement>(null);
-    return <div>
-        <canvas ref={ref} width={1536} height={512} style={{width: '50%'}} />
+    return <div className="preview">
+        <canvas ref={ref} width={1536} height={512} />
     </div>;
 }

@@ -63,19 +63,40 @@ function App() {
 
     return (
         <>
-            <input name="text" type="text" placeholder="text" autoFocus
-                value={text} onChange={e => setText(e.target.value)} />
-            <select name="type" value={type} onChange={e => setType(e.target.value as GridType)}>
-                <option value="DEFAULT">Default (5 chars)</option>
-                <option value="SMALLER">Smaller letters (8 chars × 2 lines)</option>
-                <option value="SZENDO">Szendo (5 chars)</option>
-                <option value="SZENDO_SMALL">Smaller szendo (8 chars × 2 lines)</option>
-            </select>
+            Supported characters: <code>A-Z 0-9 . , ! ? + - _ ' " #</code><br />
+            <label>
+                Label/comment text:
+                <input
+                    name="text"
+                    type="text"
+                    autoFocus
+                    value={text}
+                    onChange={e => setText(e.target.value)}
+                />
+            </label>
+            <label>
+                Font:
+                <select
+                    name="type"
+                    value={type}
+                    onChange={e => setType(e.target.value as GridType)}
+                >
+                    <option value="DEFAULT">Default (5 chars)</option>
+                    <option value="SMALLER">Smaller letters (8 chars × 2 lines)</option>
+                    <option value="SZENDO">Szendo (5 chars)</option>
+                    <option value="SZENDO_SMALL">Smaller szendo (8 chars × 2 lines)</option>
+                </select>
+            </label>
 
-            <div>
-                <textarea id="result" cols={85} rows={8} style={{resize: "none"}}
-                    value={result} readOnly></textarea>
-            </div>
+            <textarea
+                id="result"
+                cols={85}
+                rows={8}
+                style={{resize: "none"}}
+                value={result}
+                readOnly
+                tabIndex={-1}
+            ></textarea>
 
             <Preview text={text} type={type} />
 
