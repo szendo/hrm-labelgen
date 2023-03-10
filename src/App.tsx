@@ -3,6 +3,7 @@ import {deflate} from "pako";
 import {useMemo, useState} from 'react';
 import {getGlyph, getLineHeight} from "./getGlyph";
 import {getGrid} from "./getGrid";
+import {Preview} from "./Preview";
 import {GridType} from "./types";
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
         let lineNum = 0;
 
         for (const char of text.toUpperCase()) {
-            const {advance, parts} = getGlyph(char);
+            const {advance, parts} = getGlyph(char, type);
 
             const reqInstr = parts.map(it => it.length).reduce((prev, curr) => prev + curr, parts.length);
             if (instrCount + reqInstr > 256) {
@@ -75,6 +76,8 @@ function App() {
                 <textarea id="result" cols={85} rows={8} style={{resize: "none"}}
                     value={result} readOnly></textarea>
             </div>
+
+            <Preview text={text} type={type} />
 
             <button onClick={() => {navigator.clipboard.writeText(result);}}>Copy</button>
         </>
