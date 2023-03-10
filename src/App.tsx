@@ -1,13 +1,14 @@
-import React, {FormEvent, useCallback, useMemo, useState} from 'react';
-import {deflate} from "pako";
-import {GridType} from "./types";
-import {getGrid} from "./getGrid";
-import {getGlyph, getLineHeight} from "./getGlyph";
 import {Buffer} from "buffer/";
+import {deflate} from "pako";
+import {useMemo, useState} from 'react';
+import {getGlyph, getLineHeight} from "./getGlyph";
+import {getGrid} from "./getGrid";
+import {Preview} from "./Preview";
+import {GridType} from "./types";
 
 function App() {
     const [text, setText] = useState("");
-    const [type, setType] = useState<GridType>("DEFAULT");
+    const [type, setType] = useState(GridType.DEFAULT);
 
     const result = useMemo(() => {
         if (!text || !text.trim()) return "";
@@ -23,7 +24,7 @@ function App() {
         let lineNum = 0;
 
         for (const char of text.toUpperCase()) {
-            const {advance, parts} = getGlyph(char);
+            const {advance, parts} = getGlyph(char, type);
 
             const reqInstr = parts.map(it => it.length).reduce((prev, curr) => prev + curr, parts.length);
             if (instrCount + reqInstr > 256) {
@@ -59,31 +60,47 @@ function App() {
             .replace(/[A-Za-z\d+/]{80}/g, "$&\n") + ";";
     }, [text, type]);
 
-    const preventSubmit = useCallback((e: FormEvent) => e.preventDefault(), []);
 
     return (
         <>
-            <div>
-                <form onSubmit={preventSubmit}>
-                    <label>
-                        <input name="text" type="text" placeholder="text" autoFocus
-                               value={text} onChange={e => setText(e.target.value)}/>
-                    </label>
-                    <label>
-                        <select name="type" value={type} onChange={e => setType(e.target.value as GridType)}>
-                            <option value="DEFAULT">Default (5 chars)</option>
-                            <option value="SMALLER">Smaller letters (8 chars × 2 lines)</option>
-                        </select>
-                    </label>
-                </form>
-            </div>
+            Supported characters: <code>A-Z 0-9 . , ! ? + - _ ' " #</code><br />
+            <label>
+                Label/comment text:
+                <input
+                    name="text"
+                    type="text"
+                    autoFocus
+                    value={text}
+                    onChange={e => setText(e.target.value)}
+                />
+            </label>
+            <label>
+                Font:
+                <select
+                    name="type"
+                    value={type}
+                    onChange={e => setType(e.target.value as GridType)}
+                >
+                    <option value="DEFAULT">Default (5 chars)</option>
+                    <option value="SMALLER">Smaller letters (8 chars × 2 lines)</option>
+                    <option value="SZENDO">Szendo (5 chars)</option>
+                    <option value="SZENDO_SMALL">Smaller szendo (8 chars × 2 lines)</option>
+                </select>
+            </label>
 
-            <div>
-                <label>
-            <textarea id="result" cols={85} rows={8} style={{resize: "none"}}
-                      value={result} readOnly></textarea>
-                </label>
-            </div>
+            <textarea
+                id="result"
+                cols={85}
+                rows={8}
+                style={{resize: "none"}}
+                value={result}
+                readOnly
+                tabIndex={-1}
+            ></textarea>
+
+            <Preview text={text} type={type} />
+
+            <button onClick={() => {navigator.clipboard.writeText(result);}}>Copy</button>
         </>
     );
 }

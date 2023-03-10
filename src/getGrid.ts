@@ -1,5 +1,6 @@
 import {GridParams, GridType} from "./types";
 
+
 const DEFAULT: GridParams = {
     maxAdvance: 40,
     maxLineNum: 0,
@@ -15,5 +16,14 @@ const SMALLER: GridParams = {
 };
 
 export const getGrid = (t: GridType): Readonly<GridParams> => {
-    return t === "SMALLER" ? SMALLER : DEFAULT;
+    switch (t) {
+        case GridType.SMALL:
+        case GridType.SMALL_SZENDO:
+            return SMALLER;
+        case GridType.DEFAULT:
+        case GridType.SZENDO:
+            return DEFAULT;
+        default:
+            throw new Error(`Unknown grid type: ${t}`);
+    }
 };

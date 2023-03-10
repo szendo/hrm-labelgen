@@ -1,0 +1,141 @@
+@media (prefers-color-scheme: dark) {
+    body {
+        --background: #242424;
+        --input-background: #363636;
+        --header-background: #363636;
+        --border-colour: #bb86fc;
+        --button-press-colour: black;
+        --button-hover: rgba(187, 134, 252, 0.6);
+        --border-colour-unfocused: rgba(255, 255, 255, 0.3);
+        --text: rgba(255, 255, 255, 0.9);
+    }
+}
+
+:root {
+    --background: #ffffff;
+    --input-background: rgba(0, 0, 0, 0.3);
+    --header-background: #3700b3;
+    --border-colour: #3700b3;
+    --button-press-colour: #ffffff;
+    --button-hover: rgba(55, 0, 179, 0.6);
+    --border-colour-unfocused: rgba(0, 0, 0, 0.3);
+    --text: rgba(0, 0, 0, 0.9);
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    margin: 0;
+}
+
+header {
+    background-color: var(--header-background);
+    font-size: large;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+main {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+label>* {
+    margin-left: 0.5em;
+}
+
+textarea, input, select {
+    background-color: var(--input-background);
+    border: none;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 2px solid var(--border-colour-unfocused);
+    transition: border-color 0.15s ease-in-out, border-width 0.15s ease-in-out;
+    color: var(--text);
+    padding: 0.5rem;
+    padding-bottom: 0;
+}
+
+input, select {
+    min-height: 2rem;
+    padding-top: 0;
+}
+
+/* TODO: figure out how to put padding on the right side of the arrow
+* Currently, the select shows like so:
+* [ Selected option v]
+* Ideally, the arrow would be padded similarly to the text:
+* [ Selected option v ]
+*/
+/* select {
+} */
+
+textarea {
+    border-bottom: 2px dashed var(--border-colour-unfocused);
+    margin-bottom: 0.5rem;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--border-colour);
+    border-width: 4px;
+    outline: none;
+}
+
+.preview {
+    max-width: 75%;
+    background-image: url(./comment.png);
+    background-size: cover;
+    aspect-ratio: 1399/485;
+    display: grid;
+    grid-template-columns: 89fr 1232fr 78fr;
+    grid-template-rows: 45fr 408fr 32fr;
+}
+
+.preview>canvas {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+}
+
+button {
+    background-color: var(--input-background);
+    border: none;
+    color: var(--text);
+    font-size: 1rem;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+}
+
+button:active {
+    background-color: var(--border-colour);
+    color: var(--button-press-colour);
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

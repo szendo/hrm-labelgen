@@ -1,6 +1,6 @@
-import {Font, Glyph} from "./types";
+import {Font, Glyph, GridType} from "./types";
 
-const FONT: Font = {
+const SZENDO_FONT: Font = {
     lineHeight: 12,
     glyphMap: {
         "A": {
@@ -61,7 +61,7 @@ const FONT: Font = {
             advance: 8,
             parts: [
                 [[0, 0], [6, 0], [6, 6], [4, 8], [2, 8], [0, 6]],
-                // [[4, 4], [6, 4]],
+                [[4, 4], [6, 4]],
             ]
         },
         "K": {
@@ -343,6 +343,31 @@ const FONT: Font = {
         },
     },
 };
+const FONT: Font = {
+    lineHeight: SZENDO_FONT.lineHeight,
+    glyphMap: {
+        ...SZENDO_FONT.glyphMap,
+        "J": {
+            advance: 8,
+            parts: [
+                [[3, 0], [6, 0]],
+                [[5, 0], [5, 6.5], [3.5, 8], [1.5, 8], [0, 6.5]],
+            ]
+        },
+        "Z": {
+            advance: 8,
+            parts: [
+                [[0, 0], [6, 0], [0, 8], [6, 8]],
+            ]
+        },
+        "7": {
+            advance: 8,
+            parts: [
+                [[0, 0], [6, 0], [1, 8]],
+            ]
+        },
+    },
+};
 
 const NULL_GLYPH: Glyph = {
     advance: 8,
@@ -354,6 +379,19 @@ const NULL_GLYPH: Glyph = {
 
 export const getLineHeight = (): number => FONT.lineHeight;
 
-export const getGlyph = (char: string): Readonly<Glyph> => {
-    return FONT.glyphMap[char] ?? NULL_GLYPH;
+export const getGlyph = (char: string, gridType: GridType = GridType.DEFAULT): Readonly<Glyph> => {
+    let font: Font;
+    switch (gridType) {
+        case GridType.DEFAULT:
+        case GridType.SMALL:
+            font = FONT;
+            break;
+        case GridType.SZENDO:
+        case GridType.SMALL_SZENDO:
+            font = SZENDO_FONT;
+            break;
+        default:
+            throw new Error(`Unknown grid type: ${gridType}`);
+    }
+    return font.glyphMap[char] ?? NULL_GLYPH;
 };
